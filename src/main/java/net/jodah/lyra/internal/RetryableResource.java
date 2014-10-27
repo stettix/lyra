@@ -61,7 +61,7 @@ abstract class RetryableResource {
           try {
             // Retry on channel recovery failure or retryable exception
             boolean retryable = recurringPolicy != null && recurringPolicy.allowsAttempts()
-                && isRetryable(e, sse);
+                && isRetryable(e, sse, recurringPolicy.retryAuthenticationException());
             long startTime = System.nanoTime();
 
             if (retryable) {

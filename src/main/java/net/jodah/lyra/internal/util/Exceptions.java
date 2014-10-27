@@ -39,12 +39,12 @@ public final class Exceptions {
         .isHardError();
   }
 
-  public static boolean isRetryable(Exception e, ShutdownSignalException sse) {
+  public static boolean isRetryable(Exception e, ShutdownSignalException sse, boolean retryAuthException) {
     if (e instanceof SocketTimeoutException || e instanceof ConnectException
         || e instanceof AlreadyClosedException || e.getCause() instanceof EOFException)
       return true;
     if (e instanceof PossibleAuthenticationFailureException)
-      return false;
+      return retryAuthException;
     return sse != null && isRetryable(sse);
   }
 
