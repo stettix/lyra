@@ -14,6 +14,7 @@ public abstract class RecurringPolicy<T extends RecurringPolicy<T>> {
   private Duration interval;
   private Duration maxInterval;
   private int intervalMultiplier;
+  private boolean retryAuthenticationException;
 
   /**
    * Creates a recovery policy that always attempts.
@@ -76,6 +77,16 @@ public abstract class RecurringPolicy<T extends RecurringPolicy<T>> {
    */
   public Duration getMaxInterval() {
     return maxInterval;
+  }
+
+  /**
+   * Returns whether authentication exceptions should be treated as retryable.
+   * The default is false.
+   *
+   * @see #withRetryAuthenticationException(Boolean)
+   */
+  public boolean retryAuthenticationException() {
+      return retryAuthenticationException;
   }
 
   /**
@@ -148,4 +159,14 @@ public abstract class RecurringPolicy<T extends RecurringPolicy<T>> {
     this.maxDuration = maxDuration;
     return (T) this;
   }
+
+  /**
+   * Sets whether to treat possible authentication exceptions as retryable.
+   */
+  @SuppressWarnings("unchecked")
+  public T withRetryAuthenticationException(boolean retryAuthenticationException) {
+    this.retryAuthenticationException = retryAuthenticationException;
+    return (T) this;
+  }
+
 }
